@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "Prepmaster",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Courses",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/courses"
+              }
+            },
+            {
+              "name": "Get Course By Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/courses/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Department",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Department",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/departments"
+              }
+            },
+            {
+              "name": "Get Department by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/departments/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Student",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/students"
+              }
+            },
+            {
+              "name": "Get Student by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/students/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Question",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Question",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/questions"
+              }
+            },
+            {
+              "name": "Get Question by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/questions/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Organization",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Organizations",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/orgs"
+              }
+            },
+            {
+              "name": "Get Organization by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/orgs/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Promotion",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get Promotion by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/promotions/2"
+              }
+            },
+            {
+              "name": "Get All Promotion",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/promotions"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Role",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Roles",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/roles"
+              }
+            },
+            {
+              "name": "Get Role by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/roles/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Permission",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "Get All Permissions",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/permissions"
+              }
+            },
+            {
+              "name": "Get Permission by Id",
+              "event": [],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://127.0.0.1:8000/api/admin/permissions/2"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": []
+}

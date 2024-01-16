@@ -16,7 +16,7 @@ class PermissionController extends Controller
         // Add your logic for listing items
         $data = Permission::all();
 
-        return response()->json($data);
+        return response()->json(["message" => "Permissions retrieved successfully", "data" => $data], 200);
     }
 
     public function create()
@@ -39,7 +39,7 @@ class PermissionController extends Controller
         }
         Log::info("Requested ID: $id");
 
-        return response()->json(["message: " => "Permission  get successfully", $data], 200);
+        return response()->json(["message" => "Permissions retrieved successfully", "data" => $data], 200);
     }
 
     public function edit($id)

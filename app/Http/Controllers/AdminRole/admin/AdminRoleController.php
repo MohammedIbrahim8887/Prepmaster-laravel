@@ -14,7 +14,7 @@ class AdminRoleController extends Controller
         // Add your logic for listing items
         $data = AdminRole::all();
 
-        return response()->json($data);
+        return response()->json(["message" => "Admin Role retrieved successfully", "data" => $data], 200);
     }
 
     public function create()
@@ -37,7 +37,7 @@ class AdminRoleController extends Controller
         }
         Log::info("Requested ID: $id");
 
-        return response()->json(["message: " => "Department  get successfully", $data], 200);
+        return response()->json(["message" => "Admin Role retrieved successfully", "data" => $data], 200);
     }
 
     public function edit($id)

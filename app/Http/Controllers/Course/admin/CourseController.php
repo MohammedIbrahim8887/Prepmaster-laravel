@@ -14,7 +14,7 @@ class CourseController extends Controller
         // Add your logic for listing items
         $data = Course::all();
 
-        return response()->json($data);
+        return response()->json(["message" => "Course retrieved successfully", "data" => $data], 200);
     }
 
     public function create()
@@ -37,7 +37,7 @@ class CourseController extends Controller
         }
         Log::info("Requested ID: $id");
 
-        return response()->json(["message: " => "Course  get successfully", $data],200);
+        return response()->json(["message" => "Course retrieved successfully", "data" => $data], 200);
     }
 
     public function edit($id)
