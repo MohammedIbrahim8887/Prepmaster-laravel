@@ -32,7 +32,7 @@ Route::prefix("/admin")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
         Route::get("/{id}", [CourseAdminController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/department")->group(function () {
+    Route::prefix("/departments")->group(function () {
         Route::get("/", [DepartmentAdminController::class, "index"]);
         Route::get("/{id}", [DepartmentAdminController::class, "show"])->where('id', '[0-9]+');
     });
