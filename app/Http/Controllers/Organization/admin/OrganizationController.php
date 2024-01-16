@@ -40,7 +40,7 @@ class OrganizationController extends Controller
         }
         Log::info("Requested ID: $id");
 
-        return response()->json(["message: " => "Data get successfully", $data],200);
+        return response()->json(["message: " => "Organization get successfully", $data],200);
     }
 
     public function edit($id)
