@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('description');
             $table->timestamp('created_at')->default(now());
             $table->timestamp('updated_at')->default(now());
-
-
             // Define the foreign key relationship
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
@@ -28,8 +26,10 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::table('departments', function (Blueprint $table) {
+            $table->dropForeign(['admin_id']);
+        });
     }
 };

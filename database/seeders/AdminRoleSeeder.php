@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
-class PermissionSeeder extends Seeder
+class AdminRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,8 +17,10 @@ class PermissionSeeder extends Seeder
         //
         $faker = Faker::create();
         foreach (range(1, 5) as $index) {
-            DB::table('permissions')->insert([
-                'name' => $faker->name,
+            DB::table('admin_role')->insert([
+                'admin_id' => $faker->numberBetween(1,5),
+                'role_id' => $faker->numberBetween(1,5),
+                // Add more columns and faker methods as needed
             ]);
         }
     }

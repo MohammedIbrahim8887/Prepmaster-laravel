@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
-class PermissionSeeder extends Seeder
+class CourseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,8 +17,12 @@ class PermissionSeeder extends Seeder
         //
         $faker = Faker::create();
         foreach (range(1, 5) as $index) {
-            DB::table('permissions')->insert([
+            DB::table('courses')->insert([
+                'dept_id' => $faker->numberBetween(1, 5),
+                'admin_id' => $faker->numberBetween(1, 5),
                 'name' => $faker->name,
+                'description' => $faker->paragraph,
+                // Add more columns and faker methods as needed
             ]);
         }
     }
