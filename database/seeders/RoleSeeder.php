@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class RoleSeeder extends Seeder
 {
@@ -13,5 +15,12 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         //
+        $faker = Faker::create();
+        foreach (range(1, 5) as $index) {
+            DB::table('roles')->insert([
+                'permission_id' => $faker->numberBetween(1, 5),
+                'name' => $faker->name,
+            ]);
+        }
     }
 }
