@@ -18,10 +18,11 @@ return new class extends Migration {
             $table->string('phoneNumber')->unique();
             $table->string('gender');
             $table->string('password');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(now());
+            $table->timestamp('updated_at')->default(now());
 
             // Define the foreign key relationship
-            $table->foreign('org_id')->references('id')->on('organization')->onDelete('cascade');
+            $table->foreign('org_id')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 

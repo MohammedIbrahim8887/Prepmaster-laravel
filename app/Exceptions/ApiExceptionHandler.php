@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -20,7 +19,7 @@ class ApiExceptionHandler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\JsonResponse
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         // Handle specific exception types
         if ($exception instanceof ValidationException) {
@@ -40,7 +39,7 @@ class ApiExceptionHandler extends ExceptionHandler
         }
 
         // Handle generic internal server error
-        return $this->prepareJsonResponse($exception);
+        return $this->prepareJsonResponse($request, $exception);
     }
 
     /**
@@ -84,10 +83,12 @@ class ApiExceptionHandler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function prepareJsonResponse(Exception $e)
+    protected function prepareJsonResponse($request, Throwable $e)
     {
-        $statusCode = $this->isHttpException($e) ? $e->getStatusCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+        $statusCode = $this->isHttpException($e) ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+        $message = $this->isHttpException($e) ? $e->getMessage() : 'Internal Server Error';
 
-        return response()->json(['error' => 'Something went wrong. Please try again.'], $statusCode);
+        return response()->json(['error' => 'Something went wrong. Please try again.', 'message' => $message], $statusCode);
     }
+
 }

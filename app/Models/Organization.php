@@ -29,5 +29,9 @@ class Organization extends Model
     {
         return $this->hasMany(OrganizationSubscription::class, 'org_id');
     }
+    public function organizationSessions()
+    {
+        return $this->hasMany(OrganizationSession::class,'org_id');
+    }
 }
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
-class AdminSeeder extends Seeder
+class OrganizationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,15 +17,13 @@ class AdminSeeder extends Seeder
         //
         $faker = Faker::create();
         foreach (range(1, 5) as $index) {
-            DB::table('admins')->insert([
-                'org_id' => $faker->numberBetween(1,5),
-                'fullName' => $faker->name,
-                'email' => $faker->email,
+            DB::table('organizations')->insert([
+                'name' => $faker->company,
                 'phoneNumber' => $faker->phoneNumber,
-                'gender' => $faker->randomLetter,
-                'password' => $faker->password(8,20),
-
-                // Add more columns and faker methods as needed
+                'email'=> $faker->email,
+                'password'=> $faker->password(8,20),
+                'logo'=> $faker->imageUrl,
+                'brandColor'=>$faker->hexColor
             ]);
         }
     }

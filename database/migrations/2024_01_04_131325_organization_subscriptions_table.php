@@ -17,10 +17,11 @@ return new class extends Migration {
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('status')->default('Active');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(now());
+            $table->timestamp('updated_at')->default(now());
 
             // Define the foreign key relationship
-            $table->foreign('org_id')->references('id')->on('organization')->onDelete('cascade');
+            $table->foreign('org_id')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 

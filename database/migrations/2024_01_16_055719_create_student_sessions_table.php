@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('student_sessions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('permission_id');
-            $table->string('name');
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->string('token');
             $table->timestamp('created_at')->default(now());
             $table->timestamp('updated_at')->default(now());
-
-            // Define the foreign key relationship
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('student_sessions');
     }
 };

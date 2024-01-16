@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('poster');
             $table->string('video');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(now());
+            $table->timestamp('updated_at')->default(now());
         });
     }
 

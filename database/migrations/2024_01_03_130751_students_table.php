@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->string('phoneNumber');
             $table->string('gender');
             $table->string('password');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(now());
+            $table->timestamp('updated_at')->default(now());
 
             // Define the foreign key relationship
             $table->foreign('dept_id')->references('id')->on('departments')->onDelete('cascade');

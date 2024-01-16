@@ -17,7 +17,8 @@ return new class extends Migration {
             $table->json('choices');
             $table->string('answer');
             $table->string('explanation');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(now());
+            $table->timestamp('updated_at')->default(now());
 
              // Define the foreign key relationship
              $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
