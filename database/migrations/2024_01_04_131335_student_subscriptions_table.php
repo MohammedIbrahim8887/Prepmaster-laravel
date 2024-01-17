@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('student_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->unsignedBigInteger('subscription_id');
             $table->unsignedBigInteger('student_id');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
@@ -22,7 +23,7 @@ return new class extends Migration {
 
             // Define the foreign key relationship
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-
+            $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
         });
     }
 

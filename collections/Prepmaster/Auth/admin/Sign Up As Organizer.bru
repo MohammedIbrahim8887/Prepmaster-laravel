@@ -1,0 +1,22 @@
+meta {
+  name: Sign Up As Organizer
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{LocalURL}}/admin/orgs/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Hope Enterprise University College",
+    "phoneNumber": "01152365414",
+    "email": "hope@heuc.com",
+    "password": "12345678",
+    "logo":"https://via.placeholder.com/640x480.png/002244?tex...",
+    "brandColor": "#2e2e2e"
+  }
+}

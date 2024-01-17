@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->double('monthly_price');
+            $table->double('yearly_price');
             $table->string('type');
+            $table->unsignedBigInteger('mau')->nullable;
             $table->timestamp('created_at')->default(now());
             $table->timestamp('updated_at')->default(now());
         });
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('subscriptions');
     }
 };

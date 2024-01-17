@@ -20,5 +20,8 @@ class StudentSubscription extends Model
     {
         return $this->belongsTo(Students::class, 'student_id');
     }
+    public function subscription()
+    {
+        return $this->belongsTo(Subscriptions::class, 'subscription_id');
+    }
 }
-

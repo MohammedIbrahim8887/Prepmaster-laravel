@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
         foreach (range(1, 5) as $index) {
             DB::table('permissions')->insert([
                 'name' => $faker->name,
+                'type' => $faker->name,
             ]);
         }
     }

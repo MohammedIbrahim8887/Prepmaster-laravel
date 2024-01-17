@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Permission extends Model
+class Subscriptions extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
-        'name',
-        'type'
+        "id",
+        "name",
+        "monthly_price",
+        "yearly_price",
+        "type",
+        "mau",
     ];
-
-    public function roles()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
 }

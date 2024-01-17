@@ -7,6 +7,7 @@ use App\Models\StudentSession;
 use Error;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class StudentSessionController extends Controller
 {
@@ -28,7 +29,7 @@ class StudentSessionController extends Controller
             $studentSession = new StudentSession(['student_id' => $student->id, 'token' => $token]);
             $studentSession->save();
             return response()->json(["Session:" => $studentSession], 200);
-        } catch (Error $e) {
+        } catch (ValidationException $e) {
             return response()->json(['message:' => "Internal Server Error", "error" => $e->getMessage()], 500);
         }
     }

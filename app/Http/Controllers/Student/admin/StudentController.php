@@ -14,13 +14,20 @@ use Illuminate\Validation\ValidationException;
 class StudentController extends Controller
 {
     //
-
     public function index()
     {
-        // Add your logic for listing items
-        $data = Students::all();
+        try {
+            // Eager load only the department name
+            $data = Students::with('departments:id,name')->get();
 
-        return response()->json(["message" => "Student retrieved successfully", "data" => $data], 200);
+            return response()->json(["message" => "Student retrieved successfully", "data" => $data], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error($e->getMessage());
+
+            // Return an error response
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function create()
@@ -68,7 +75,7 @@ class StudentController extends Controller
     public function show($id)
     {
         // Add your logic for displaying a single item
-        $data = Students::find($id);
+        $data = Students::with('departments:id,name')->find($id);
 
         if (!$data) {
             return response()->json(["message: " => "Record not found"], 404);

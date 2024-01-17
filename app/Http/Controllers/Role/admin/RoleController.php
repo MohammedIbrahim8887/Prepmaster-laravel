@@ -16,11 +16,10 @@ class RoleController extends Controller
     public function index()
     {
         // Add your logic for listing items
-        $data = Role::all();
+        $data = Role::with('permissions')->get();
 
-        return response()->json(["message" => "Role retrieved successfully", "data" => $data], 200);
+        return response()->json(["message" => "Roles retrieved successfully", "data" => $data], 200);
     }
-
     public function create()
     {
         // Add your logic for displaying the create form
