@@ -9,6 +9,7 @@ use App\Models\OrganizationSession;
 use App\Models\AdminSession;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AdminSessionController extends Controller
 {
@@ -50,7 +51,7 @@ class AdminSessionController extends Controller
             }
 
             return response()->json(['message' => 'Invalid credentials'], 401);
-        } catch (Error $e) {
+        } catch (ValidationException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
