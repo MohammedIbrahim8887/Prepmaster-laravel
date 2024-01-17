@@ -1,0 +1,18 @@
+meta {
+  name: Update Role
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{LocalURL}}/admin/roles/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "permission_id":2,
+    "name":"Dick head"
+  }
+}

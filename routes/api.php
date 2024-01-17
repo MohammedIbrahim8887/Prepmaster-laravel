@@ -81,6 +81,8 @@ Route::prefix("/admin")->group(function () {
         Route::get("/", [RoleAdminController::class, "index"]);
         Route::post("/", [RoleAdminController::class, "store"]);
         Route::get("/{id}", [RoleAdminController::class, "show"])->where('id', '[0-9]+');
+        Route::delete("/{id}", [RoleAdminController::class, "destroy"])->where('id', '[0-9]+');
+        Route::patch("/{id}", [RoleAdminController::class, "update"])->where('id', '[0-9]+');
     });
     Route::middleware('auth:sanctum')->prefix("/students")->group(function () {
         Route::get("/", [StudentAdminController::class, "index"]);

@@ -74,11 +74,48 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $role = Role::find($id);
+
+        if (!$role) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'permission_id' => 'required|numeric|exists:permissions,id'
+            ]);
+
+            $role->name= $request->input('name');
+            $role->permission_id= $request->input('permission_id');
+
+            $role->save();
+
+            return response()->json(['message' => 'Role updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Role::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Role deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }
