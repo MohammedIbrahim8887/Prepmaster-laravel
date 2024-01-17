@@ -68,6 +68,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/promotions")->group(function () {
         Route::get("/", [PromotionAdminController::class, "index"]);
+        Route::post("/", [PromotionAdminController::class, "store"]);
         Route::get("/{id}", [PromotionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/questions")->group(function () {
