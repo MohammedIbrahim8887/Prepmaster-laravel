@@ -1,0 +1,18 @@
+meta {
+  name: Update Department
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{LocalURL}}/admin/departments/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"Computer Science",
+    "description":"Department Of Computer Science CS230"
+  }
+}

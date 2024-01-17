@@ -57,6 +57,8 @@ Route::prefix("/admin")->group(function () {
         Route::get("/", [DepartmentAdminController::class, "index"]);
         Route::post("/", [DepartmentAdminController::class, "store"]);
         Route::get("/{id}", [DepartmentAdminController::class, "show"])->where('id', '[0-9]+');
+        Route::delete("/{id}", [DepartmentAdminController::class, "destroy"])->where('id', '[0-9]+');
+        Route::patch("/{id}", [DepartmentAdminController::class, "update"])->where('id', '[0-9]+');
     });
     Route::prefix("/admin_role")->group(function () {
         Route::get("/", [AdminRoleAdminController::class, "index"]);
