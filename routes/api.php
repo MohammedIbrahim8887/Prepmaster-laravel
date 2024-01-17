@@ -47,12 +47,14 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", [AdminOrganizationController::class, "store"]);
         Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');;
     });
-    Route::middleware('auth:sanctum')->prefix("/courses")->group(function () {
+    Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
+        Route::post("/", [CourseAdminController::class, "store"]);
         Route::get("/{id}", [CourseAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/departments")->group(function () {
         Route::get("/", [DepartmentAdminController::class, "index"]);
+        Route::post("/", [DepartmentAdminController::class, "store"]);
         Route::get("/{id}", [DepartmentAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/admin_role")->group(function () {
@@ -61,22 +63,27 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/permissions")->group(function () {
         Route::get("/", [PermissionAdminController::class, "index"]);
+        Route::post("/", [PermissionAdminController::class, "store"]);
         Route::get("/{id}", [PermissionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/promotions")->group(function () {
         Route::get("/", [PromotionAdminController::class, "index"]);
+        Route::post("/", [PromotionAdminController::class, "store"]);
         Route::get("/{id}", [PromotionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/questions")->group(function () {
         Route::get("/", [QuestionAdminController::class, "index"]);
+        Route::post("/", [QuestionAdminController::class, "store"]);
         Route::get("/{id}", [QuestionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/roles")->group(function () {
         Route::get("/", [RoleAdminController::class, "index"]);
+        Route::post("/", [RoleAdminController::class, "store"]);
         Route::get("/{id}", [RoleAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/students")->group(function () {
         Route::get("/", [StudentAdminController::class, "index"]);
+        Route::post("/", [StudentAdminController::class, "store"]);
         Route::get("/{id}", [StudentAdminController::class, "show"])->where('id', '[0-9]+');
     });
 });

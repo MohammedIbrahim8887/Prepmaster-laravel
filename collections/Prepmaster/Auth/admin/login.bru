@@ -1,0 +1,18 @@
+meta {
+  name: login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{LocalURL}}/admin/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "email": "ashton.tillman@robel.com",
+      "password": "9Q!8z3,Shuiq"
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Create Course
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{LocalURL}}/admin/courses
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "admin_id":2,
+    "dept_id":1,
+    "name":"Computer Organization and Architecture",
+    "description":"Basics of Hardware and Software"
+  }
+}

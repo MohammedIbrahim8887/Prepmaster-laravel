@@ -1,0 +1,22 @@
+meta {
+  name: Create Student
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{LocalURL}}/admin/students
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "dept_id":2,
+    "fullName":"Abebe Bekilla",
+    "phoneNumber":"0912345678",
+    "gender":"Male",
+    "password":"12345678",
+    "email":"test@gmail.com"
+  }
+}

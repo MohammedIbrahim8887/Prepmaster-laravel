@@ -1,0 +1,19 @@
+meta {
+  name: Create Department
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{LocalURL}}/admin/departments
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "admin_id":2,
+    "name":"Computer Science",
+    "description":"Department Of Computer Science CS230"
+  }
+}

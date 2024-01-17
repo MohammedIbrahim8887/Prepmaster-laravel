@@ -1,0 +1,22 @@
+meta {
+  name: Create Question
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{LocalURL}}/admin/questions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "course_id": 1,
+    "question": "What is the capital of France?",
+    "choices": ["Berlin", "London", "Paris", "Madrid"],
+    "answer": "Paris",
+    "explanation": "Paris is the capital of France."
+  }
+  
+}

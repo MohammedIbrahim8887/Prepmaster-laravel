@@ -1,0 +1,17 @@
+meta {
+  name: logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{LocalURL}}/admin/logout
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "token": "5|Z2o2KFVbDnK1IBysSv01BuExUTjVSN2h705BGPfK0b8de5d8"
+  }
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Create Role
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{LocalURL}}/admin/roles
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "permission_id":2,
+    "name":"DepartmentHead"
+  }
+}
