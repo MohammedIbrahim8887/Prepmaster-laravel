@@ -6,53 +6,70 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+
 class RoleController extends Controller
 {
-      //
+    //
 
-      public function index()
-      {
-          // Add your logic for listing items
-          $data = Role::all();
+    public function index()
+    {
+        // Add your logic for listing items
+        $data = Role::all();
 
-          return response()->json(["message" => "Role retrieved successfully", "data" => $data], 200);
-      }
+        return response()->json(["message" => "Role retrieved successfully", "data" => $data], 200);
+    }
 
-      public function create()
-      {
-          // Add your logic for displaying the create form
-      }
+    public function create()
+    {
+        // Add your logic for displaying the create form
+    }
 
-      public function store(Request $request)
-      {
-          // Add your logic for storing a new item
-      }
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string',
+            'permission_id' => 'required|numeric|exists:permissions,id'
+        ]);
 
-      public function show($id)
-      {
-          // Add your logic for displaying a single item
-          $data = Role::find($id);
+        // Create a new permission instance
+        $permission = new Role([
+            'name' => $request->input('name'),
+            'permission_id' => $request->input('permission_id'),
+        ]);
 
-          if (!$data) {
-              return response()->json(["message: " => "Record not found"], 404);
-          }
-          Log::info("Requested ID: $id");
+        // Save the permission to the database
+        $permission->save();
 
-          return response()->json(["message" => "Role retrieved successfully", "data" => $data], 200);
-      }
+        // Return a success response
+        return response()->json(['message' => 'Permission created successfully'], 201);
+    }
 
-      public function edit($id)
-      {
-          // Add your logic for displaying the edit form
-      }
+    public function show($id)
+    {
+        // Add your logic for displaying a single item
+        $data = Role::find($id);
 
-      public function update(Request $request, $id)
-      {
-          // Add your logic for updating an item
-      }
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
 
-      public function destroy($id)
-      {
-          // Add your logic for deleting an item
-      }
+        return response()->json(["message" => "Role retrieved successfully", "data" => $data], 200);
+    }
+
+    public function edit($id)
+    {
+        // Add your logic for displaying the edit form
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Add your logic for updating an item
+    }
+
+    public function destroy($id)
+    {
+        // Add your logic for deleting an item
+    }
 }
