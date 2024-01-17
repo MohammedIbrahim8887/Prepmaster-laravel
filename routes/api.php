@@ -47,8 +47,9 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", [AdminOrganizationController::class, "store"]);
         Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');;
     });
-    Route::middleware('auth:sanctum')->prefix("/courses")->group(function () {
+    Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
+        Route::post("/", [CourseAdminController::class, "store"]);
         Route::get("/{id}", [CourseAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/departments")->group(function () {
