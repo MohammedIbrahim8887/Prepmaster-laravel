@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Organization\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class OrganizationController extends Controller
 {
@@ -24,10 +24,39 @@ class OrganizationController extends Controller
     {
         // Add your logic for displaying the create form
     }
-
     public function store(Request $request)
     {
-        // Add your logic for storing a new item
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string',
+            'phoneNumber' => 'required|unique:organizations|string',
+            'email' => 'required|email|unique:organizations|string',
+            'password' => 'required|string',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'brandColor' => 'required|string',
+        ]);
+
+        // Get the authenticated user using the bearer token
+        $user = Auth::user();
+
+        // Handle file upload (logo)
+        $logoPath = $request->file('logo')->store('logos', 'public');
+
+        // Create a new organization instance
+        $organization = new Organization([
+            'name' => $request->input('name'),
+            'phoneNumber' => $request->input('phoneNumber'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'logo' => $logoPath,
+            'brandColor' => $request->input('brandColor'),
+        ]);
+
+        // Associate the organization with the authenticated user
+        $user->organization()->save($organization);
+
+        // Return a success response
+        return response()->json(['message' => 'Organization created successfully'], 201);
     }
 
     public function show($id)
@@ -35,8 +64,8 @@ class OrganizationController extends Controller
         // Add your logic for displaying a single item
         $data = Organization::find($id);
 
-        if(!$data){
-            return response()->json(["message: " => "Record not found"],404);
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
         }
         Log::info("Requested ID: $id");
 
