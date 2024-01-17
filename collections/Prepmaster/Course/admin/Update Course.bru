@@ -1,0 +1,18 @@
+meta {
+  name: Update Course
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{LocalURL}}/admin/courses/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"Computer Organization and Architecture",
+    "description":"Basics of Hardware and Software"
+  }
+}
