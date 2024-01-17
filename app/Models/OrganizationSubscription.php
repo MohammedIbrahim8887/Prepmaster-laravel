@@ -9,8 +9,9 @@ class OrganizationSubscription extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'org_id',
+        'mau',
         'subscription_id',
         'start_date',
         'end_date',
