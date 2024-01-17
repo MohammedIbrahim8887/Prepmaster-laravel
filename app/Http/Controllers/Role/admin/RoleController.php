@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Role\admin;
 
 use App\Models\Role;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -26,23 +27,31 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string',
-            'permission_id' => 'required|numeric|exists:permissions,id'
-        ]);
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'name' => 'required|string',
+                'permission_id' => 'required|numeric|exists:permissions,id'
+            ]);
 
-        // Create a new permission instance
-        $permission = new Role([
-            'name' => $request->input('name'),
-            'permission_id' => $request->input('permission_id'),
-        ]);
+            // Create a new permission instance
+            $permission = new Role([
+                'name' => $request->input('name'),
+                'permission_id' => $request->input('permission_id'),
+            ]);
 
-        // Save the permission to the database
-        $permission->save();
+            // Save the permission to the database
+            $permission->save();
 
-        // Return a success response
-        return response()->json(['message' => 'Permission created successfully'], 201);
+            // Return a success response
+            return response()->json(['message' => 'Permission created successfully'], 201);
+        } catch (QueryException $e) {
+            // Handle the exception when an invalid department ID is provided
+            return response()->json(['error' => 'Invalid Permission ID. Please provide a valid permission ID.'], 400);
+        } catch (\Exception $e) {
+            // Handle other generic exceptions
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function show($id)
