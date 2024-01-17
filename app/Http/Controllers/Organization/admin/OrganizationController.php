@@ -26,38 +26,44 @@ class OrganizationController extends Controller
     }
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string',
-            'phoneNumber' => 'required|unique:organizations|string',
-            'email' => 'required|email|unique:organizations|string',
-            'password' => 'required|string',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'brandColor' => 'required|string',
-        ]);
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'name' => 'required|string',
+                'phoneNumber' => 'required|unique:organizations|string',
+                'email' => 'required|email|unique:organizations|string',
+                'password' => 'required|string',
+                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'brandColor' => 'required|string',
+            ]);
 
-        // Get the authenticated user using the bearer token
-        $user = Auth::user();
+            // Handle file upload (logo)
+            $logoPath = $request->file('logo')->store('logos', 'public');
 
-        // Handle file upload (logo)
-        $logoPath = $request->file('logo')->store('logos', 'public');
+            // Create a new organization instance
+            $organization = new Organization([
+                'name' => $request->input('name'),
+                'phoneNumber' => $request->input('phoneNumber'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'logo' => $logoPath,
+                'brandColor' => $request->input('brandColor'),
+            ]);
 
-        // Create a new organization instance
-        $organization = new Organization([
-            'name' => $request->input('name'),
-            'phoneNumber' => $request->input('phoneNumber'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'logo' => $logoPath,
-            'brandColor' => $request->input('brandColor'),
-        ]);
+            // Save the organization
+            $organization->save();
 
-        // Associate the organization with the authenticated user
-        $user->organization()->save($organization);
-
-        // Return a success response
-        return response()->json(['message' => 'Organization created successfully'], 201);
+            // Return a success response
+            return response()->json(['message' => 'Organization created successfully'], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Validation failed
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            // Other exceptions
+            return response()->json(['message' => 'An error occurred', 'error' => $e->getMessage()], 500);
+        }
     }
+
 
     public function show($id)
     {
