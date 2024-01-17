@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Subscriptions\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Course\admin\CourseController as CourseAdminController;
@@ -22,8 +23,10 @@ use App\Http\Controllers\Question\user\QuestionController as QuestionUserControl
 use App\Http\Controllers\Role\user\RoleController as RoleUserController;
 use App\Http\Controllers\Student\user\StudentController as StudentUserController;
 use App\Http\Controllers\Organization\user\OrganizationController as UserOrganizationController;
-
+use App\Http\Controllers\OrganizationSubscription\admin\OrganizationSubscriptionController;
 use App\Http\Controllers\Sessions\user\StudentSessionController as StudentSessionController;
+use App\Http\Controllers\Studentubscription\admin\StudentSubscriptionController;
+use App\Models\Subscriptions;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +48,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/orgs")->group(function () {
         Route::post("/signup", [AdminOrganizationController::class, "create"]);
+        Route::post("/subscribe", [OrganizationSubscriptionController::class, "create"]);
         Route::get("/", [AdminOrganizationController::class, "index"]);
         Route::post("/", [AdminOrganizationController::class, "store"]);
         Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');;
@@ -88,6 +92,11 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", [StudentAdminController::class, "store"]);
         Route::get("/{id}", [StudentAdminController::class, "show"])->where('id', '[0-9]+');
     });
+    Route::prefix('/plans')->group(function () {
+        Route::get('/', [SubscriptionsController::class, 'index']);
+        Route::get('/{id}', [SubscriptionsController::class, 'show']);
+        Route::post('/create', [SubscriptionsController::class, 'create']);
+    });
 });
 Route::prefix("/user")->group(function () {
     Route::group(["prefix" => "/auth"], function () {
@@ -95,6 +104,7 @@ Route::prefix("/user")->group(function () {
         Route::post('/signup', [StudentUserController::class, 'create']);
         Route::middleware('auth:sanctum')->post("/logout", [StudentSessionController::class, 'logout']);
     });
+    Route::post('/subscribe', [StudentSubscriptionController::class, 'create']);
     Route::middleware('auth:sanctum')->prefix("/admins")->group(function () {
         Route::get("/", [AdminUserController::class, "index"]);
         Route::get("/{id}", [AdminUserController::class, "show"])->where('id', '[0-9]+');
@@ -111,4 +121,8 @@ Route::prefix("/user")->group(function () {
         Route::get("/", [QuestionUserController::class, "index"]);
         Route::get("/{id}", [QuestionUserController::class, "show"])->where('id', '[0-9]+');
     });
+});
+Route::prefix('/subscription')->group(function () {
+    Route::get('/', [SubscriptionsController::class, "index"]);
+    Route::get('/{id}', [SubscriptionsController::class, "show"]);
 });
