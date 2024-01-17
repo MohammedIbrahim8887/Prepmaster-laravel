@@ -7,6 +7,7 @@ use App\Models\Students;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
@@ -35,7 +36,7 @@ class StudentController extends Controller
         try {
             $student = Students::create($request->all());
             return response()->json(["message" => "Student Created Successfully", "data:" => $student], 200);
-        } catch (Error $e) {
+        } catch (ValidationException $e) {
             return response()->json(["message" => "Internal Server Error", "error" => $e->getMessage()], 500);
         }
     }

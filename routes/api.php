@@ -44,6 +44,7 @@ Route::prefix("/admin")->group(function () {
         Route::get("/{id}", [AdminAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/orgs")->group(function () {
+        Route::post("/signup", [AdminOrganizationController::class, "create"]);
         Route::get("/", [AdminOrganizationController::class, "index"]);
         Route::post("/", [AdminOrganizationController::class, "store"]);
         Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');;
