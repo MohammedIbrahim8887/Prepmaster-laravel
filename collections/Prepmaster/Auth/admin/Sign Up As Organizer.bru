@@ -6,6 +6,17 @@ meta {
 
 post {
   url: {{LocalURL}}/admin/orgs/signup
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "name": "Hope Enterprise University College",
+    "phoneNumber": "01152365414",
+    "email": "hope@heuc.com",
+    "password": "12345678",
+    "logo":"https://via.placeholder.com/640x480.png/002244?tex...",
+    "brandColor": "#2e2e2e"
+  }
 }
