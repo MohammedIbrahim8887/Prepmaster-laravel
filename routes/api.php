@@ -53,6 +53,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/departments")->group(function () {
         Route::get("/", [DepartmentAdminController::class, "index"]);
+        Route::post("/", [DepartmentAdminController::class, "store"]);
         Route::get("/{id}", [DepartmentAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/admin_role")->group(function () {

@@ -30,7 +30,7 @@ class StudentController extends Controller
         try {
             // Validate the incoming request data
             $request->validate([
-                'dept_id' => 'required|string|exists:departments,dept_id',
+                'dept_id' => 'required|string|exists:departments,id',
                 'fullName' => 'required|string',
                 'phoneNumber' => 'required|string',
                 'gender' => 'required|string',
