@@ -1,0 +1,17 @@
+meta {
+  name: Update Student Profile
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{LocalURL}}/user/students/password/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "password":"Dagim Bekilla"
+  }
+}

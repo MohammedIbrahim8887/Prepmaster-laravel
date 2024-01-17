@@ -45,7 +45,7 @@ Route::prefix("/admin")->group(function () {
     Route::prefix("/orgs")->group(function () {
         Route::get("/", [AdminOrganizationController::class, "index"]);
         Route::post("/", [AdminOrganizationController::class, "store"]);
-        Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');;
+        Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
@@ -81,10 +81,12 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", [RoleAdminController::class, "store"]);
         Route::get("/{id}", [RoleAdminController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/students")->group(function () {
+    Route::middleware('auth:sanctum')->prefix("/students")->group(function () {
         Route::get("/", [StudentAdminController::class, "index"]);
         Route::post("/", [StudentAdminController::class, "store"]);
         Route::get("/{id}", [StudentAdminController::class, "show"])->where('id', '[0-9]+');
+        Route::delete("/{id}", [StudentAdminController::class, "destroy"])->where('id', '[0-9]+');
+        Route::patch("/profile/{id}", [StudentAdminController::class, "updateProfile"])->where('id', '[0-9]+');
     });
 });
 Route::prefix("/user")->group(function () {
@@ -124,8 +126,11 @@ Route::prefix("/user")->group(function () {
         Route::get("/", [RoleUserController::class, "index"]);
         Route::get("/{id}", [RoleUserController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/students")->group(function () {
+    Route::middleware('auth:sanctum')->prefix("/students")->group(function () {
         Route::get("/", [StudentUserController::class, "index"]);
         Route::get("/{id}", [StudentUserController::class, "show"])->where('id', '[0-9]+');
+        Route::delete("/{id}", [StudentAdminController::class, "destroyByStudent"])->where('id', '[0-9]+');
+        Route::patch("/profile/{id}", [StudentAdminController::class, "updateProfileByStudent"])->where('id', '[0-9]+');
+        Route::patch("/password/{id}", [StudentAdminController::class, "updatePassword"])->where('id', '[0-9]+');
     });
 });
