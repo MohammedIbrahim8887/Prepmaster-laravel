@@ -71,6 +71,8 @@ Route::prefix("/admin")->group(function () {
         Route::get("/", [PromotionAdminController::class, "index"]);
         Route::post("/", [PromotionAdminController::class, "store"]);
         Route::get("/{id}", [PromotionAdminController::class, "show"])->where('id', '[0-9]+');
+        Route::delete("/{id}", [PromotionAdminController::class, "destroy"])->where('id', '[0-9]+');
+        Route::patch("/{id}", [PromotionAdminController::class, "update"])->where('id', '[0-9]+');
     });
     Route::prefix("/questions")->group(function () {
         Route::get("/", [QuestionAdminController::class, "index"]);

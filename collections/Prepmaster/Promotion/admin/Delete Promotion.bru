@@ -1,0 +1,19 @@
+meta {
+  name: Delete Promotion
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{LocalURL}}/admin/promotions/2
+  body: multipartForm
+  auth: none
+}
+
+body:form-urlencoded {
+  : 
+}
+
+body:multipart-form {
+  : 
+}

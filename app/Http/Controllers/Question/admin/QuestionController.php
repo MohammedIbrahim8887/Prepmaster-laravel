@@ -104,10 +104,10 @@ class QuestionController extends Controller
                 'explanation' => 'required|string',
             ]);
 
-            $data->question= $request->input('question');
-            $data->choices= $request->input('choices');
-            $data->answer= $request->input('answer');
-            $data->explanation= $request->input('explanation');
+            $data->question = $request->input('question');
+            $data->choices = $request->input('choices');
+            $data->answer = $request->input('answer');
+            $data->explanation = $request->input('explanation');
 
             $data->save();
 
@@ -118,21 +118,22 @@ class QuestionController extends Controller
     }
 
     public function destroy($id)
-    { try {
-        $data = Questions::find($id);
+    {
+        try {
+            $data = Questions::find($id);
 
-        if (!$data) {
-            return response()->json(["message: " => "Record not found"], 404);
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Question deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
-
-        Log::info("Requested ID: $id");
-
-        $data->delete();
-
-        return response()->json(["message" => "Question deleted successfully"], 200);
-
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
-    }
     }
 }
