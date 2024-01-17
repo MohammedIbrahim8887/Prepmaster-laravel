@@ -29,11 +29,13 @@ class PermissionController extends Controller
         // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|unique:permissions',
+            'type' => 'required|string',
         ]);
 
         // Create a new permission instance
         $permission = new Permission([
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
         ]);
 
         // Save the permission to the database
