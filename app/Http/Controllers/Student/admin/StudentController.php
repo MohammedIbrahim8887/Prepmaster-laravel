@@ -82,26 +82,7 @@ class StudentController extends Controller
         // Add your logic for displaying the edit form
     }
 
-    public function updateProfileByStudent(Request $request, $id)
-    {
-        //verify student who is updating the account is the owner of the account
-        $studentSessions = StudentSession::where('student_id', $id)->get();
-        $token = request()->header('Authorization');
-        $token = str_replace('Bearer ', '', $token);
-
-        // Check if the token matches any of the associated StudentSession tokens
-        $isLoggedInStudent = $studentSessions->contains('token', $token);
-
-        if (!$isLoggedInStudent) {
-            return response()->json(["message" => "Unauthorized"], 404);
-        }
-
-        // Token is valid, proceed with the destroy operation
-        $this->updateProfile($request, $id);
-
-    }
-
-    public function updateProfile(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $student = Students::find($id);
 
@@ -130,50 +111,6 @@ class StudentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
-    }
-
-
-    public function updatePassword(Request $request, $id)
-    {
-        $student = Students::find($id);
-
-        if (!$student) {
-            return response()->json(["message: " => "Record not found"], 404);
-        }
-        Log::info("Requested ID: $id");
-
-        try {
-            $request->validate([
-                'password' => 'required|string'
-            ]);
-
-            $student->password = $request->input('password');
-
-            $student->save();
-
-            return response()->json(['message' => 'Student password updated successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
-        }
-    }
-
-    public function destroyByStudent(Request $request, $id)
-    {
-        //verify student who is deleting the account is the owner of the account
-        $studentSessions = StudentSession::where('student_id', $id)->get();
-        $token = request()->header('Authorization');
-        $token = str_replace('Bearer ', '', $token);
-
-        // Check if the token matches any of the associated StudentSession tokens
-        $isLoggedInStudent = $studentSessions->contains('token', $token);
-
-        if (!$isLoggedInStudent) {
-            return response()->json(["message" => "Unauthorized"], 404);
-        }
-
-        // Token is valid, proceed with the destroy operation
-        $this->destroy($request, $id);
-
     }
 
     public function destroy(Request $request, $id)

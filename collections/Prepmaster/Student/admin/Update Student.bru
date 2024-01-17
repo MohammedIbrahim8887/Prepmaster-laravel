@@ -1,17 +1,13 @@
 meta {
-  name: Update Student Profile
+  name: Update Student
   type: http
-  seq: 4
+  seq: 5
 }
 
 patch {
-  url: {{LocalURL}}/user/students/profile/11
+  url: {{LocalURL}}/admin/students/13
   body: json
   auth: none
-}
-
-auth:bearer {
-  token: 3|MAhygNKNLtpLuMzMflBONj4D1OzNc3V65Gru9pqC26ba45fb
 }
 
 body:json {

@@ -52,4 +52,19 @@ class StudentSessionController extends Controller
             return response()->json(["message:" => "Internal Server Error", "error:" => $e->getMessage()], 500);
         }
     }
+    public static function isOwner(Request $request, $id)
+    {
+        $studentSessions = StudentSession::where('student_id', $id)->get();
+        $token = $request->bearerToken();
+
+        // Check if the token matches any of the associated StudentSession tokens
+        $isLoggedInStudent = $studentSessions->contains('token', $token);
+
+        if (!$isLoggedInStudent) {
+            return false;
+        }
+
+        // The student is the owner of the account
+        return true;
+    }
 }
