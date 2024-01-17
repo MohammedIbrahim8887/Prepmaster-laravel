@@ -26,7 +26,21 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        // Add your logic for storing a new item
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string|unique:permissions',
+        ]);
+
+        // Create a new permission instance
+        $permission = new Permission([
+            'name' => $request->input('name'),
+        ]);
+
+        // Save the permission to the database
+        $permission->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Permission created successfully'], 201);
     }
 
     public function show($id)

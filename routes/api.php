@@ -61,6 +61,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/permissions")->group(function () {
         Route::get("/", [PermissionAdminController::class, "index"]);
+        Route::post("/", [PermissionAdminController::class, "store"]);
         Route::get("/{id}", [PermissionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/promotions")->group(function () {
