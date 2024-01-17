@@ -78,6 +78,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/students")->group(function () {
         Route::get("/", [StudentAdminController::class, "index"]);
+        Route::post("/", [StudentAdminController::class, "store"]);
         Route::get("/{id}", [StudentAdminController::class, "show"])->where('id', '[0-9]+');
     });
 });

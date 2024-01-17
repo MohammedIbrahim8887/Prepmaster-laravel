@@ -26,7 +26,31 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        // Add your logic for storing a new item
+        // Validate the incoming request data
+        $request->validate([
+            'dept_id' => 'required|numeric|exists:departments,id',
+            'fullName' => 'required|string',
+            'phoneNumber' => 'required|string',
+            'gender' => 'required|string',
+            'password' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        // Create a new student instance
+        $student = new Students([
+            'dept_id' => $request->input('dept_id'),
+            'fullName' => $request->input('fullName'),
+            'phoneNumber' => $request->input('phoneNumber'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'gender' => $request->input('gender'),
+        ]);
+
+        // Save the student to the database
+        $student->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Student created successfully'], 201);
     }
 
     public function show($id)
