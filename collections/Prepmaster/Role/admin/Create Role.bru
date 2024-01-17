@@ -6,6 +6,13 @@ meta {
 
 post {
   url: {{LocalURL}}/admin/roles
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "permission_id":2,
+    "name":"DepartmentHead"
+  }
 }

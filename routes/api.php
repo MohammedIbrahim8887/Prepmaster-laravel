@@ -72,6 +72,7 @@ Route::prefix("/admin")->group(function () {
     });
     Route::prefix("/questions")->group(function () {
         Route::get("/", [QuestionAdminController::class, "index"]);
+        Route::post("/", [QuestionAdminController::class, "store"]);
         Route::get("/{id}", [QuestionAdminController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/roles")->group(function () {
