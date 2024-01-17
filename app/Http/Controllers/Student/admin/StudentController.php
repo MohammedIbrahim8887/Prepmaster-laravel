@@ -9,6 +9,7 @@ use App\Models\StudentSession;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
@@ -108,6 +109,8 @@ class StudentController extends Controller
             $student->save();
 
             return response()->json(['message' => 'Student profile updated successfully'], 200);
+        }  catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

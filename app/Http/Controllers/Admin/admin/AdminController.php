@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -71,7 +72,9 @@ class AdminController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Admin profile updated successfully'], 200);
-        } catch (\Exception $e) {
+        }catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+        }  catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
     }
@@ -95,6 +98,8 @@ class AdminController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Admin password updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

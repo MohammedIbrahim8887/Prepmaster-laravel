@@ -7,6 +7,7 @@ use App\Models\Department;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class DepartmentController extends Controller
 {
@@ -94,6 +95,8 @@ class DepartmentController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Department updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

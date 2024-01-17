@@ -7,6 +7,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class OrganizationController extends Controller
 {
@@ -55,7 +56,7 @@ class OrganizationController extends Controller
 
             // Return a success response
             return response()->json(['message' => 'Organization created successfully'], 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             // Validation failed
             return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
@@ -96,21 +97,23 @@ class OrganizationController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string',
-                'phoneNumber' => 'required|unique:organizations|string',
-                'email' => 'required|email|unique:organizations|string',
-                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'phoneNumber' => 'required|string',
+                'email' => 'required|email|string',
+                // 'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'brandColor' => 'required|string',
             ]);
 
             $data->name = $request->input('name');
             $data->phoneNumber = $request->input('phoneNumber');
             $data->email = $request->input('email');
-            $data->logo = $request->input('logo');
+            // $data->logo = $request->input('logo');
             $data->brandColor = $request->input('brandColor');
 
             $data->save();
 
             return response()->json(['message' => 'Organization updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
@@ -137,8 +140,11 @@ class OrganizationController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Organization password updated successfully'], 200);
+        } catch (ValidationException $e) {
+            // Validation failed
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong. Please try again.'.$e], 500);
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
     }
 

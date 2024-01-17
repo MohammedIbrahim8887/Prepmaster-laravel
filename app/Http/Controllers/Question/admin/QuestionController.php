@@ -112,6 +112,8 @@ class QuestionController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Question updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

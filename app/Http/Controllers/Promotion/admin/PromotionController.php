@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class PromotionController extends Controller
 {
@@ -62,6 +63,8 @@ class PromotionController extends Controller
 
             // Return a success response
             return response()->json(['message' => 'Promotion created successfully'], 201);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             // Handle other unexpected errors during data saving
             return response()->json(['error' => 'Something went wrong while saving the promotion. Please try again.'], 500);
@@ -113,6 +116,8 @@ class PromotionController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Promotion updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

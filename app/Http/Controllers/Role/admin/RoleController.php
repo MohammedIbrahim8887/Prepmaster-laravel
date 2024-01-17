@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class RoleController extends Controller
 {
@@ -48,7 +49,9 @@ class RoleController extends Controller
         } catch (QueryException $e) {
             // Handle the exception when an invalid department ID is provided
             return response()->json(['error' => 'Invalid Permission ID. Please provide a valid permission ID.'], 400);
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        }catch (\Exception $e) {
             // Handle other generic exceptions
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
@@ -94,7 +97,9 @@ class RoleController extends Controller
             $role->save();
 
             return response()->json(['message' => 'Role updated successfully'], 200);
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        }catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
     }
