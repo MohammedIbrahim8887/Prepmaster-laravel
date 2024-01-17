@@ -45,14 +45,79 @@ class AdminController extends Controller
         // Add your logic for displaying the edit form
     }
 
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $data = Admin::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'fullName' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'gender' => 'required|string',
+                'email' => 'required|email',
+            ]);
+
+            $data->fullName = $request->input('fullName');
+            $data->phoneNumber = $request->input('phoneNumber');
+            $data->gender = $request->input('gender');
+            $data->email = $request->input('email');
+
+            $data->save();
+
+            return response()->json(['message' => 'Admin profile updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
+    }
+    public function updatePassword(Request $request, $id)
+    {
+
+        $data = Admin::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+        try {
+            $request->validate([
+                'password' => 'required|string'
+            ]);
+
+            $data->password = $request->input('password');
+
+            $data->save();
+
+            return response()->json(['message' => 'Admin password updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Admin::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Admin deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     // Add additional custom methods as needed
