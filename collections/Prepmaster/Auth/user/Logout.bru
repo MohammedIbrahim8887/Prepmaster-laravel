@@ -1,0 +1,21 @@
+meta {
+  name: Logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{LocalURL}}/user/auth/logout
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer 2|wSuzXyoVepmQHQ2vT4N6IOoPYOeQHfDmfmLFgcA333a36bc2
+}
+
+body:json {
+  {
+    "token": "2|wSuzXyoVepmQHQ2vT4N6IOoPYOeQHfDmfmLFgcA333a36bc2"
+  }
+}
