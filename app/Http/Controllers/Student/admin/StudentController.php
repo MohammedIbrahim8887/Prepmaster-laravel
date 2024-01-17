@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Student\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminSession;
 use App\Models\Students;
+use App\Models\StudentSession;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
@@ -89,11 +92,54 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $student = Students::find($id);
+
+        if (!$student) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'fullName' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'gender' => 'required|string',
+                'email' => 'required|email',
+            ]);
+
+            $student->fullName = $request->input('fullName');
+            $student->phoneNumber = $request->input('phoneNumber');
+            $student->gender = $request->input('gender');
+            $student->email = $request->input('email');
+
+            $student->save();
+
+            return response()->json(['message' => 'Student profile updated successfully'], 200);
+        }  catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Students::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Student deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class PromotionController extends Controller
 {
@@ -62,6 +63,8 @@ class PromotionController extends Controller
 
             // Return a success response
             return response()->json(['message' => 'Promotion created successfully'], 201);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             // Handle other unexpected errors during data saving
             return response()->json(['error' => 'Something went wrong while saving the promotion. Please try again.'], 500);
@@ -89,11 +92,54 @@ class PromotionController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $data = Promotion::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'description' => 'required|string',
+                'poster' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the file types and size as needed
+                'video' => 'required|string', // Adjust the file types and size as needed
+            ]);
+
+            $data->name = $request->input('name');
+            $data->description = $request->input('description');
+            $data->poster = $request->input('poster');
+            $data->video = $request->input('video');
+
+            $data->save();
+
+            return response()->json(['message' => 'Promotion updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Promotion::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Promotion deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }

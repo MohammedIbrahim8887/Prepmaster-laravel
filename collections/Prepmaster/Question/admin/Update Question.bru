@@ -1,0 +1,21 @@
+meta {
+  name: Update Question
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{LocalURL}}/admin/questions/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "What is the capital of France?",
+    "choices": ["Berlin", "London", "Paris", "Madrid"],
+    "answer": "Paris",
+    "explanation": "Paris is the capital of France."
+  }
+  
+}

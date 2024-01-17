@@ -1,0 +1,20 @@
+meta {
+  name: Update Student
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{LocalURL}}/admin/students/13
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "fullName":"Dagim Bekilla",
+    "phoneNumber":"0912345678",
+    "gender":"Male",
+    "email":"test@gmail.com"
+  }
+}

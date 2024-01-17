@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Student\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Students;
+use App\Models\StudentSession;
+use App\Http\Controllers\Sessions\user\StudentSessionController;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -64,13 +66,100 @@ class StudentController extends Controller
         // Add your logic for displaying the edit form
     }
 
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $isOwner = StudentSessionController::isOwner($request, $id);
+
+        if (!$isOwner) {
+            return response()->json(["message: " => "Unauthorized"], 404);
+        }
+
+        $student = Students::find($id);
+
+        if (!$student) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+        try {
+            $request->validate([
+                'fullName' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'gender' => 'required|string',
+                'email' => 'required|email',
+            ]);
+
+            $student->fullName = $request->input('fullName');
+            $student->phoneNumber = $request->input('phoneNumber');
+            $student->gender = $request->input('gender');
+            $student->email = $request->input('email');
+
+            $student->save();
+
+            return response()->json(['message' => 'Student profile updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
-    public function destroy($id)
+
+    public function updatePassword(Request $request, $id)
     {
-        // Add your logic for deleting an item
+        $isOwner = StudentSessionController::isOwner($request, $id);
+
+        if (!$isOwner) {
+            return response()->json(["message: " => "Unauthorized"], 404);
+        }
+
+        $student = Students::find($id);
+
+        if (!$student) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+        try {
+            $request->validate([
+                'password' => 'required|string'
+            ]);
+
+            $student->password = $request->input('password');
+
+            $student->save();
+
+            return response()->json(['message' => 'Student password updated successfully'], 200);
+        }  catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $isOwner = StudentSessionController::isOwner($request, $id);
+
+        if (!$isOwner) {
+            return response()->json(["message: " => "Unauthorized"], 404);
+        }
+        
+        try {
+            $data = Students::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Student deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }

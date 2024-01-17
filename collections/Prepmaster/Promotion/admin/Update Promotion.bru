@@ -1,0 +1,24 @@
+meta {
+  name: Update Promotion
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{LocalURL}}/admin/promotions/1
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Goku vs vegita",
+    "description": "Alias consequatur ut architecto ut sit minima. Mollitia quam distinctio veritatis cumque eum. Enim dolorem ratione ut provident. Expedita ipsam dolores odio consequatur aut omnis.",
+    "poster": "https://via.placeholder.com/640x480.png/00eeee?text=quia",
+    "video": "http://ernser.info/quis-rerum-harum-eveniet-omnis-quidem-et-dolorem-inventore.html"
+  }
+}
+
+body:multipart-form {
+  : 
+}

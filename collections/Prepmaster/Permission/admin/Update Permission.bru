@@ -1,11 +1,11 @@
 meta {
-  name: Create Permission
+  name: Update Permission
   type: http
-  seq: 3
+  seq: 4
 }
 
-post {
-  url: {{LocalURL}}/admin/permissions
+patch {
+  url: {{LocalURL}}/admin/permissions/2
   body: json
   auth: none
 }

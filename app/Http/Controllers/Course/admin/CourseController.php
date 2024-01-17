@@ -7,6 +7,7 @@ use App\Models\Course;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class CourseController extends Controller
 {
@@ -60,6 +61,8 @@ class CourseController extends Controller
         } catch (QueryException $e) {
             // Handle the exception when an invalid department ID is provided
             return response()->json(['error' => 'Invalid Department ID or Admin ID. Please provide a valid department ID or admin ID.'], 400);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
         } catch (\Exception $e) {
             // Handle other generic exceptions
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
@@ -73,7 +76,7 @@ class CourseController extends Controller
         $data = Course::with('departments:id,name')->find($id);
 
         if (!$data) {
-            return response()->json(["message" => "Record not found"], 404);
+            return response()->json(["message: " => "Record not found"], 404);
         }
 
         Log::info("Requested ID: $id");
@@ -88,12 +91,51 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $data = Course::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'description' => 'required|string',
+            ]);
+
+            $data->name = $request->input('name');
+            $data->description = $request->input('description');
+
+            $data->save();
+
+            return response()->json(['message' => 'Question updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Course::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Course deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     // Add additional custom methods as needed

@@ -1,0 +1,24 @@
+meta {
+  name: Update Admin Profile
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{LocalURL}}/admin/admins/profile/3
+  body: json
+  auth: none
+}
+
+auth:bearer {
+  token: 3|MAhygNKNLtpLuMzMflBONj4D1OzNc3V65Gru9pqC26ba45fb
+}
+
+body:json {
+  {
+    "fullName":"Dagim Bekilla",
+    "phoneNumber":"0912345678",
+    "gender":"Male",
+    "email":"test@gmail.com"
+  }
+}

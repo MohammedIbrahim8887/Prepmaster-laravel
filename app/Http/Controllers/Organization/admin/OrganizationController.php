@@ -71,7 +71,7 @@ class OrganizationController extends Controller
 
             // Return a success response
             return response()->json(['message' => 'Organization created successfully'], 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             // Validation failed
             return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         } catch (\Exception $e) {
@@ -99,13 +99,87 @@ class OrganizationController extends Controller
         // Add your logic for displaying the edit form
     }
 
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request, $id)
     {
-        // Add your logic for updating an item
+        $data = Organization::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'email' => 'required|email|string',
+                // 'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'brandColor' => 'required|string',
+            ]);
+
+            $data->name = $request->input('name');
+            $data->phoneNumber = $request->input('phoneNumber');
+            $data->email = $request->input('email');
+            // $data->logo = $request->input('logo');
+            $data->brandColor = $request->input('brandColor');
+
+            $data->save();
+
+            return response()->json(['message' => 'Organization updated successfully'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
+    }
+
+
+
+    public function updatePassword(Request $request, $id)
+    {
+        $data = Organization::find($id);
+
+        if (!$data) {
+            return response()->json(["message: " => "Record not found"], 404);
+        }
+        Log::info("Requested ID: $id");
+
+        try {
+            $request->validate([
+                'password' => 'required|string'
+            ]);
+
+            $data->password = $request->input('password');
+
+            $data->save();
+
+            return response()->json(['message' => 'Organization password updated successfully'], 200);
+        } catch (ValidationException $e) {
+            // Validation failed
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        // Add your logic for deleting an item
+        try {
+            $data = Organization::find($id);
+
+            if (!$data) {
+                return response()->json(["message: " => "Record not found"], 404);
+            }
+
+            Log::info("Requested ID: $id");
+
+            $data->delete();
+
+            return response()->json(["message" => "Organization deleted successfully"], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }
