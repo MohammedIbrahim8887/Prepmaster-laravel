@@ -1,0 +1,24 @@
+meta {
+  name: Update Organization
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{LocalURL}}/admin/orgs/profile/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Daniel LLC",
+    "phoneNumber": "706.471.3499",
+    "email": "ruby38@hotmail.com",
+    "brandColor": "#cf5bb3"
+  }
+}
+
+body:multipart-form {
+  name: 
+}

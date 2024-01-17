@@ -43,13 +43,13 @@ Route::prefix("/admin")->group(function () {
         Route::get("/", [AdminAdminController::class, "index"]);
         Route::get("/{id}", [AdminAdminController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/orgs")->group(function () {
+    Route::prefix("/orgs")->group(function () { 
         Route::get("/", [AdminOrganizationController::class, "index"]);
         Route::post("/", [AdminOrganizationController::class, "store"]);
         Route::get("/{id}", [AdminOrganizationController::class, "show"])->where('id', '[0-9]+');
         Route::delete("/{id}", [AdminOrganizationController::class, "destroy"])->where('id', '[0-9]+');
-        Route::patch("/profile/{id}", [StudentUserController::class, "updateProfile"])->where('id', '[0-9]+');
-        Route::patch("/password/{id}", [StudentUserController::class, "updatePassword"])->where('id', '[0-9]+');
+        Route::patch("/profile/{id}", [AdminOrganizationController::class, "updateProfile"])->where('id', '[0-9]+');
+        Route::patch("/password/{id}", [AdminOrganizationController::class, "updatePassword"])->where('id', '[0-9]+');
     });
     Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
