@@ -12,6 +12,7 @@ class Students extends Model
     use HasApiTokens;
     protected $fillable = [
         'dept_id',
+        'org_id',
         'fullName',
         'email',
         'phoneNumber',
@@ -22,6 +23,10 @@ class Students extends Model
     public function departments()
     {
         return $this->belongsTo(Department::class, 'dept_id');
+    }
+    public function organizations()
+    {
+        return $this->belongsTo(Organization::class, 'org_id');
     }
     public function studentSubscriptions()
     {

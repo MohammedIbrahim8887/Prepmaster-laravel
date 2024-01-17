@@ -23,6 +23,7 @@ use App\Http\Controllers\Role\user\RoleController as RoleUserController;
 use App\Http\Controllers\Student\user\StudentController as StudentUserController;
 use App\Http\Controllers\Organization\user\OrganizationController as UserOrganizationController;
 
+use App\Http\Controllers\Sessions\user\StudentSessionController as StudentSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,29 +89,18 @@ Route::prefix("/admin")->group(function () {
     });
 });
 Route::prefix("/user")->group(function () {
+    Route::group(["prefix" => "/auth"], function () {
+        Route::post("/login", [StudentSessionController::class, 'generateToken']);
+        Route::post('/signup', [StudentUserController::class, 'create']);
+        Route::middleware('auth:sanctum')->post("/logout", [StudentSessionController::class, 'logout']);
+    });
     Route::middleware('auth:sanctum')->prefix("/admins")->group(function () {
         Route::get("/", [AdminUserController::class, "index"]);
         Route::get("/{id}", [AdminUserController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/orgs")->group(function () {
-        Route::get("/", [UserOrganizationController::class, "index"]);
-        Route::get("/{id}", [UserOrganizationController::class, "show"])->where('id', '[0-9]+');;
-    });
     Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseUserController::class, "index"]);
         Route::get("/{id}", [CourseUserController::class, "show"])->where('id', '[0-9]+');
-    });
-    Route::prefix("/departments")->group(function () {
-        Route::get("/", [DepartmentUserController::class, "index"]);
-        Route::get("/{id}", [DepartmentUserController::class, "show"])->where('id', '[0-9]+');
-    });
-    Route::prefix("/admin_role")->group(function () {
-        Route::get("/", [AdminRoleUserController::class, "index"]);
-        Route::get("/{id}", [AdminRoleUserController::class, "show"])->where('id', '[0-9]+');
-    });
-    Route::prefix("/permissions")->group(function () {
-        Route::get("/", [PermissionUserController::class, "index"]);
-        Route::get("/{id}", [PermissionUserController::class, "show"])->where('id', '[0-9]+');
     });
     Route::prefix("/promotions")->group(function () {
         Route::get("/", [PromotionUserController::class, "index"]);
@@ -119,13 +109,5 @@ Route::prefix("/user")->group(function () {
     Route::prefix("/questions")->group(function () {
         Route::get("/", [QuestionUserController::class, "index"]);
         Route::get("/{id}", [QuestionUserController::class, "show"])->where('id', '[0-9]+');
-    });
-    Route::prefix("/roles")->group(function () {
-        Route::get("/", [RoleUserController::class, "index"]);
-        Route::get("/{id}", [RoleUserController::class, "show"])->where('id', '[0-9]+');
-    });
-    Route::prefix("/students")->group(function () {
-        Route::get("/", [StudentUserController::class, "index"]);
-        Route::get("/{id}", [StudentUserController::class, "show"])->where('id', '[0-9]+');
     });
 });
