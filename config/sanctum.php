@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => now()->months(1),
+    'expiration' => null,
 
 
     /*
