@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Students;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -26,31 +27,39 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'dept_id' => 'required|numeric|exists:departments,id',
-            'fullName' => 'required|string',
-            'phoneNumber' => 'required|string',
-            'gender' => 'required|string',
-            'password' => 'required|string',
-            'email' => 'required|email',
-        ]);
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'dept_id' => 'required|string|exists:departments,dept_id',
+                'fullName' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'gender' => 'required|string',
+                'password' => 'required|string',
+                'email' => 'required|email',
+            ]);
 
-        // Create a new student instance
-        $student = new Students([
-            'dept_id' => $request->input('dept_id'),
-            'fullName' => $request->input('fullName'),
-            'phoneNumber' => $request->input('phoneNumber'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'gender' => $request->input('gender'),
-        ]);
+            // Create a new student instance
+            $student = new Students([
+                'dept_id' => $request->input('dept_id'),
+                'fullName' => $request->input('fullName'),
+                'phoneNumber' => $request->input('phoneNumber'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'gender' => $request->input('gender'),
+            ]);
 
-        // Save the student to the database
-        $student->save();
+            // Save the student to the database
+            $student->save();
 
-        // Return a success response
-        return response()->json(['message' => 'Student created successfully'], 201);
+            // Return a success response
+            return response()->json(['message' => 'Student created successfully'], 201);
+        } catch (QueryException $e) {
+            // Handle the exception when an invalid department ID is provided
+            return response()->json(['error' => 'Invalid department ID. Please provide a valid department ID.'], 400);
+        } catch (\Exception $e) {
+            // Handle other generic exceptions
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function show($id)
