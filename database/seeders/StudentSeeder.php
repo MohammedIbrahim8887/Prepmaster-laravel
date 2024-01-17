@@ -15,18 +15,26 @@ class StudentSeeder extends Seeder
     {
         $faker = Faker::create();
         $usedDeptIds = [];
+        $usedOrgIds = [];
 
         foreach (range(1, 5) as $index) {
             // Generate a unique dept_id for each student
             do {
                 $deptId = $faker->numberBetween(1, 5);
             } while (in_array($deptId, $usedDeptIds));
+            do {
+                $org_id = $faker->numberBetween(1, 5);
+            } while (in_array($org_id, $usedOrgIds));
+
+
 
             // Store the used dept_id
             $usedDeptIds[] = $deptId;
+            $usedOrgIds[] = $org_id;
 
             DB::table('students')->insert([
                 'dept_id' => $deptId,
+                'org_id' => $org_id,
                 'fullName' => $faker->name,
                 'email' => $faker->email,
                 'phoneNumber' => $faker->phoneNumber,

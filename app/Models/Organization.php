@@ -11,7 +11,7 @@ class Organization extends Model
     use HasFactory;
     use HasApiTokens;
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'phoneNumber',
         'email',
@@ -25,13 +25,16 @@ class Organization extends Model
     {
         return $this->hasMany(Admin::class, 'org_id');
     }
+    public function students()
+    {
+        return $this->hasMany(Students::class, 'org_id');
+    }
     public function organizationSubscriptions()
     {
         return $this->hasMany(OrganizationSubscription::class, 'org_id');
     }
     public function organizationSessions()
     {
-        return $this->hasMany(OrganizationSession::class,'org_id');
+        return $this->hasMany(OrganizationSession::class, 'org_id');
     }
 }
-
