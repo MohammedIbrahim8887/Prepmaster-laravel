@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string('phoneNumber')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('logo');
-            $table->string('brandColor');
+            $table->string('logo')->nullable();
+            $table->string('brandColor')->nullable();
             $table->timestamp('created_at')->default(now());
             $table->timestamp('updated_at')->default(now());
 

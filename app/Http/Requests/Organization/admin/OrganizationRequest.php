@@ -26,7 +26,7 @@ class OrganizationRequest extends FormRequest
             'phoneNumber' => 'required|unique:organizations,phoneNumber',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:8',
-            'logo' => 'required|text',
+            'logo' => 'text',
             'brandColor' => 'required|string|max:255',
         ];
     }

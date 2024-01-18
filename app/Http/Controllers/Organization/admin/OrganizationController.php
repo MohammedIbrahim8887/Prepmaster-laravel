@@ -29,8 +29,8 @@ class OrganizationController extends Controller
             "phoneNumber" => "required|string",
             "email" => "required|email",
             "password" => "required|string",
-            "logo" => "required",
-            "brandColor" => "required",
+            "logo" => "image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "brandColor" => "string",
         ]);
 
         try {
@@ -49,8 +49,8 @@ class OrganizationController extends Controller
                 'phoneNumber' => 'required|unique:organizations|string',
                 'email' => 'required|email|unique:organizations|string',
                 'password' => 'required|string',
-                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'brandColor' => 'required|string',
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'brandColor' => 'string',
             ]);
 
             // Handle file upload (logo)
@@ -114,14 +114,14 @@ class OrganizationController extends Controller
                 'name' => 'required|string',
                 'phoneNumber' => 'required|string',
                 'email' => 'required|email|string',
-                // 'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'brandColor' => 'required|string',
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'brandColor' => 'string',
             ]);
 
             $data->name = $request->input('name');
             $data->phoneNumber = $request->input('phoneNumber');
             $data->email = $request->input('email');
-            // $data->logo = $request->input('logo');
+            $data->logo = $request->input('logo');
             $data->brandColor = $request->input('brandColor');
 
             $data->save();

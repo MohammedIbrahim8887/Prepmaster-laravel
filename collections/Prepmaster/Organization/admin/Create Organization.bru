@@ -5,7 +5,16 @@ meta {
 }
 
 post {
-  url: {{LocalURL}}/admins
-  body: none
+  url: {{LocalURL}}/admin/orgs/signup
+  body: json
   auth: none
+}
+
+body:json {
+   {
+        "name": "HEUC",
+        "phoneNumber": "0942167872",
+        "email": "jessika.ly@hotmail.com",
+        "password": "[;&}%!j\"r/_4-"
+      }
 }
