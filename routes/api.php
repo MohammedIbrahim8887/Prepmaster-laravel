@@ -15,6 +15,8 @@ use App\Http\Controllers\Organization\admin\OrganizationController as AdminOrgan
 use App\Http\Controllers\Sessions\Admin\AdminSessionController;
 use App\Http\Controllers\Admin\user\AdminController as AdminUserController;
 use App\Http\Controllers\Course\user\CourseController as CourseUserController;
+use App\Http\Controllers\Exam\admin\ExamsController;
+use App\Http\Controllers\ExamQuestionsController;
 use App\Http\Controllers\Promotion\user\PromotionController as PromotionUserController;
 use App\Http\Controllers\Question\user\QuestionController as QuestionUserController;
 use App\Http\Controllers\Student\user\StudentController as StudentUserController;
@@ -45,7 +47,7 @@ Route::prefix("/admin")->group(function () {
         Route::post("/confirm-password", [AdminAdminController::class, "confirm_password"]);
     });
     Route::prefix("/orgs")->group(function () {
-        Route::post("/signup", [AdminOrganizationController::class, "create"]);
+        Route::post("/signup", [AdminOrganizationController::class, "store"]);
         Route::post("/subscribe", [OrganizationSubscriptionController::class, "create"]);
         Route::get("/", [AdminOrganizationController::class, "index"]);
         Route::post("/", [AdminOrganizationController::class, "store"]);
@@ -94,6 +96,16 @@ Route::prefix("/admin")->group(function () {
         Route::delete("/{id}", [QuestionAdminController::class, "destroy"])->where('id', '[0-9]+');
         Route::post("/{id}", [QuestionAdminController::class, "update"])->where('id', '[0-9]+');
     });
+    Route::prefix('/exam')->group(function () {
+        Route::get('/', [ExamsController::class, 'index']);
+        Route::get('/{id}', [ExamsController::class, 'show']);
+        Route::post('/create', [ExamsController::class, 'create']);
+    });
+    Route::prefix('/exam-questions')->group(function () {
+        Route::get('/', [ExamQuestionsController::class, 'index']);
+        Route::get('/{id}', [ExamQuestionsController::class, 'show']);
+        Route::post('/create', [ExamQuestionsController::class, 'create']);
+    });
     Route::prefix("/roles")->group(function () {
         Route::get("/", [RoleAdminController::class, "index"]);
         Route::post("/", [RoleAdminController::class, "store"]);
@@ -136,6 +148,16 @@ Route::prefix("/user")->group(function () {
     Route::prefix("/questions")->group(function () {
         Route::get("/", [QuestionUserController::class, "index"]);
         Route::get("/{id}", [QuestionUserController::class, "show"])->where('id', '[0-9]+');
+    });
+    Route::prefix('/exam')->group(function () {
+        Route::get('/', [ExamsController::class, 'index']);
+        Route::get('/{id}', [ExamsController::class, 'show']);
+        Route::post('/create', [ExamsController::class, 'create']);
+    });
+    Route::prefix('/exam-questions')->group(function () {
+        Route::get('/', [ExamsController::class, 'index']);
+        Route::get('/{id}', [ExamsController::class, 'show']);
+        Route::get('/create', [ExamsController::class, 'create']);
     });
     Route::middleware('auth:sanctum')->prefix("/students")->group(function () {
         Route::get("/{id}", [StudentUserController::class, "show"])->where('id', '[0-9]+');

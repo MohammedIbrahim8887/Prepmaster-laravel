@@ -23,6 +23,10 @@ class Questions extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+    private function exam_questions()
+    {
+        return $this->belongsTo(ExamQuestions::class, "question_id", "id");
+    }
     public function getCorrectAnswerAttribute()
     {
         $choices = json_decode($this->attributes['choices'], true);
@@ -35,5 +39,4 @@ class Questions extends Model
         // Throw an exception if the correct choice is not found
         throw new \RuntimeException('Correct choice not found for question ID: ' . $this->id);
     }
-
 }

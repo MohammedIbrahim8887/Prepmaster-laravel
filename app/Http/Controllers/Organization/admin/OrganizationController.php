@@ -36,7 +36,7 @@ class OrganizationController extends Controller
 
         try {
             $organization = Organization::create($request->all());
-            return response()->json(["message" => "Student Created Successfully", "data:" => $organization], 200);
+            return response()->json(["message" => "Organization Created Successfully", "data:" => $organization], 200);
         } catch (ValidationException $e) {
             return response()->json(["message" => "Internal Server Error", "error:" => $e->getMessage()], 500);
         }

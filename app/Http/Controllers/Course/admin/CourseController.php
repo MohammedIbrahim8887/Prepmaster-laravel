@@ -46,7 +46,7 @@ class CourseController extends Controller
             ]);
 
             // Create a new student instance
-            $student = new Course([
+            $data = new Course([
                 'admin_id' => $request->input('admin_id'),
                 'dept_id' => $request->input('admin_id'),
                 'name' => $request->input('name'),
@@ -54,10 +54,10 @@ class CourseController extends Controller
             ]);
 
             // Save the student to the database
-            $student->save();
+            $data->save();
 
             // Return a success response
-            return response()->json(['message' => 'Course created successfully'], 201);
+            return response()->json(['message' => 'Course created successfully', "data" => $data], 201);
         } catch (QueryException $e) {
             // Handle the exception when an invalid department ID is provided
             return response()->json(['error' => 'Invalid Department ID or Admin ID. Please provide a valid department ID or admin ID.'], 400);
@@ -132,7 +132,6 @@ class CourseController extends Controller
             $data->delete();
 
             return response()->json(["message" => "Course deleted successfully"], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
