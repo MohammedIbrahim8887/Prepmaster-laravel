@@ -16,7 +16,7 @@ class QuestionController extends Controller
     public function index()
     {
         // Add your logic for listing items
-        $data = Questions::all();
+        $data = Questions::with('courses:id,name')->get();
 
         return response()->json(["message" => "Questions retrieved successfully", "data" => $data], 200);
     }
