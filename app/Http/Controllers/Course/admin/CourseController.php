@@ -42,13 +42,13 @@ class CourseController extends Controller
                 'admin_id' => 'required|numeric|exists:admins,id',
                 'dept_id' => 'required|numeric|exists:departments,id',
                 'name' => 'required|string',
-                'description' => 'required|string',
+                'description' => 'string',
             ]);
 
             // Create a new student instance
             $data = new Course([
                 'admin_id' => $request->input('admin_id'),
-                'dept_id' => $request->input('admin_id'),
+                'dept_id' => $request->input('dept_id'),
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
             ]);

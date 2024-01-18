@@ -40,6 +40,7 @@ Route::prefix("/admin")->group(function () {
     Route::post("/logout", [AdminSessionController::class, "logout"]);
     Route::middleware('auth:sanctum')->prefix("/admins")->group(function () {
         Route::get("/", [AdminAdminController::class, "index"]);
+        Route::post("/", [AdminAdminController::class, "store"]);
         Route::get("/{id}", [AdminAdminController::class, "show"])->where('id', '[0-9]+');
         Route::delete("/{id}", [AdminAdminController::class, "destroy"])->where('id', '[0-9]+');
         Route::post("/profile/{id}", [AdminAdminController::class, "updateProfile"])->where('id', '[0-9]+');

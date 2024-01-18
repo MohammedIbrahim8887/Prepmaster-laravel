@@ -1,0 +1,22 @@
+meta {
+  name: Create Admin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{LocalURL}}/admin/admins
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "org_id": 1,
+    "fullName": "HEUC ADMIN",
+    "phoneNumber": "1234567890",
+    "gender": "Male",
+    "email": "admin@example.com"
+  }
+  
+}

@@ -31,30 +31,33 @@ class RoleController extends Controller
             // Validate the incoming request data
             $request->validate([
                 'name' => 'required|string',
-                'permission_id' => 'required|numeric|exists:permissions,id'
+                'permission_ids' => 'required|array',
+                'permission_ids.*' => 'required|numeric|exists:permissions,id'
             ]);
 
-            // Create a new permission instance
-            $permission = new Role([
+            // Create a new role instance
+            $role = new Role([
                 'name' => $request->input('name'),
-                'permission_id' => $request->input('permission_id'),
             ]);
 
-            // Save the permission to the database
-            $permission->save();
+            // Save the role to the database
+            $role->save();
+
+            // Attach permissions to the role
+            $role->permissions()->attach($request->input('permission_ids'));
 
             // Return a success response
-            return response()->json(['message' => 'Permission created successfully'], 201);
-        } catch (QueryException $e) {
-            // Handle the exception when an invalid department ID is provided
-            return response()->json(['error' => 'Invalid Permission ID. Please provide a valid permission ID.'], 400);
-        } catch (ValidationException $e) {
-            return response()->json(['error' => $e->validator->errors()], 422);
-        }catch (\Exception $e) {
-            // Handle other generic exceptions
+            return response()->json(['message' => 'Role created successfully'], 201);
+        } catch (\Exception $e) {
+            // Log the exception for further investigation
+            \Log::error($e);
+
+            // Handle the exception and return a response
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
     }
+
+
 
     public function show($id)
     {

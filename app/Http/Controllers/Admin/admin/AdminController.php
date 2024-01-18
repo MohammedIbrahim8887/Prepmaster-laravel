@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\AdminSession;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +27,37 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // Add your logic for storing a new item
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'org_id' => 'required|numeric|exists:organizations,id',
+                'name' => 'required|string',
+                'description' => 'required|string',
+            ]);
+
+            // Create a new student instance
+            $student = new Admin([
+                'org_id' => $request->input('org_id'),
+                'fullName' => 'required|string',
+                'phoneNumber' => 'required|string',
+                'gender' => 'required|string',
+                'email' => 'required|email',
+            ]);
+
+            // Save the student to the database
+            $student->save();
+
+            // Return a success response
+            return response()->json(['message' => 'Admin created successfully'], 201);
+        } catch (QueryException $e) {
+            // Handle the exception when an invalid department ID is provided
+            return response()->json(['error' => 'Invalid Org ID or admin ID. Please provide a valid org ID .'], 400);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        } catch (\Exception $e) {
+            // Handle other generic exceptions
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 
     public function show($id)
