@@ -36,7 +36,7 @@ use App\Http\Controllers\Studentubscription\admin\StudentSubscriptionController;
 Route::prefix("/admin")->group(function () {
     Route::post("/login", [AdminSessionController::class, "generateToken"]);
     Route::post("/logout", [AdminSessionController::class, "logout"]);
-    Route::middleware('auth:sanctum')->prefix("/admins")->group(function () {
+    Route::prefix("/admins")->group(function () {
         Route::get("/", [AdminAdminController::class, "index"]);
         Route::get("/{id}", [AdminAdminController::class, "show"])->where('id', '[0-9]+');
         Route::delete("/{id}", [AdminAdminController::class, "destroy"])->where('id', '[0-9]+');
@@ -99,7 +99,7 @@ Route::prefix("/admin")->group(function () {
         Route::delete("/{id}", [RoleAdminController::class, "destroy"])->where('id', '[0-9]+');
         Route::patch("/{id}", [RoleAdminController::class, "update"])->where('id', '[0-9]+');
     });
-    Route::middleware('auth:sanctum')->prefix("/students")->group(function () {
+    Route::prefix("/students")->group(function () {
         Route::get("/", [StudentAdminController::class, "index"]);
         Route::post("/", [StudentAdminController::class, "store"]);
         Route::get("/{id}", [StudentAdminController::class, "show"])->where('id', '[0-9]+');
@@ -123,15 +123,15 @@ Route::prefix("/user")->group(function () {
         Route::get("/", [AdminUserController::class, "index"]);
         Route::get("/{id}", [AdminUserController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/courses")->group(function () {
+    Route::middleware('auth:sanctum')->prefix("/courses")->group(function () {
         Route::get("/", [CourseUserController::class, "index"]);
         Route::get("/{id}", [CourseUserController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/promotions")->group(function () {
+    Route::middleware('auth:sanctum')->prefix("/promotions")->group(function () {
         Route::get("/", [PromotionUserController::class, "index"]);
         Route::get("/{id}", [PromotionUserController::class, "show"])->where('id', '[0-9]+');
     });
-    Route::prefix("/questions")->group(function () {
+    Route::middleware('auth:sanctum')->prefix("/questions")->group(function () {
         Route::get("/", [QuestionUserController::class, "index"]);
         Route::get("/{id}", [QuestionUserController::class, "show"])->where('id', '[0-9]+');
     });
