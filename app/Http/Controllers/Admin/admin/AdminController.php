@@ -54,8 +54,12 @@ class AdminController extends Controller
             return response()->json(["message" => "Session Not Found"], 404);
         }
 
-        if ($adminSession->password = $request->password) {
-            return response()->json(["message" => "Password is the same", 2000]);
+        $admin = Admin::find($adminSession->admin_id);
+
+        if ($admin->password == $request->password) {
+            return response()->json(["message" => "Password is the same "],200);
+        } else {
+            return response()->json(["message" => "Incorrect Password"],401);
         }
     }
     public function edit($id)

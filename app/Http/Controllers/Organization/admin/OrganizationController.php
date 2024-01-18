@@ -22,6 +22,7 @@ class OrganizationController extends Controller
         return response()->json(["message" => "Organization retrieved successfully", "data" => $data], 200);
     }
 
+
     public function create(Request $request)
     {
         // Add your logic for displaying the create form
@@ -54,8 +55,12 @@ class OrganizationController extends Controller
             return response()->json(["message" => "Session Not Found"], 404);
         }
 
-        if ($adminSession->password = $request->password) {
-            return response()->json(["message" => "Password is the same", 2000]);
+        $org = Organization::find($adminSession->admin_id);
+
+        if ($org->password == $request->password) {
+            return response()->json(["message" => "Password is the same "],200);
+        } else {
+            return response()->json(["message" => "Incorrect Password"],401);
         }
     }
     public function store(Request $request)
