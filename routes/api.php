@@ -15,18 +15,12 @@ use App\Http\Controllers\Organization\admin\OrganizationController as AdminOrgan
 use App\Http\Controllers\Sessions\Admin\AdminSessionController;
 use App\Http\Controllers\Admin\user\AdminController as AdminUserController;
 use App\Http\Controllers\Course\user\CourseController as CourseUserController;
-use App\Http\Controllers\Department\user\DepartmentController as DepartmentUserController;
-use App\Http\Controllers\AdminRole\user\AdminRoleController as AdminRoleUserController;
-use App\Http\Controllers\Permission\user\PermissionController as PermissionUserController;
 use App\Http\Controllers\Promotion\user\PromotionController as PromotionUserController;
 use App\Http\Controllers\Question\user\QuestionController as QuestionUserController;
-use App\Http\Controllers\Role\user\RoleController as RoleUserController;
 use App\Http\Controllers\Student\user\StudentController as StudentUserController;
-use App\Http\Controllers\Organization\user\OrganizationController as UserOrganizationController;
 use App\Http\Controllers\OrganizationSubscription\admin\OrganizationSubscriptionController;
 use App\Http\Controllers\Sessions\user\StudentSessionController as StudentSessionController;
 use App\Http\Controllers\Studentubscription\admin\StudentSubscriptionController;
-use App\Models\Subscriptions;
 
 /*
 |--------------------------------------------------------------------------
