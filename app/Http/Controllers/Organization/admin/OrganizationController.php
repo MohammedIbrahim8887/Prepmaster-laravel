@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Organization\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Organization;
+use App\Models\OrganizationSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,23 @@ class OrganizationController extends Controller
             return response()->json(["message" => "Student Created Successfully", "data:" => $organization], 200);
         } catch (ValidationException $e) {
             return response()->json(["message" => "Internal Server Error", "error:" => $e->getMessage()], 500);
+        }
+    }
+
+    public function confirmPassword(Request $request)
+    {
+        $request->validate([
+            "password" => "required",
+        ]);
+        $token = $request->bearerToken();
+        $adminSession = OrganizationSession::where("token", $token)->first();
+
+        if (empty($adminSession)) {
+            return response()->json(["message" => "Session Not Found"], 404);
+        }
+
+        if ($adminSession->password = $request->password) {
+            return response()->json(["message" => "Password is the same", 2000]);
         }
     }
     public function store(Request $request)
@@ -177,7 +195,6 @@ class OrganizationController extends Controller
             $data->delete();
 
             return response()->json(["message" => "Organization deleted successfully"], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

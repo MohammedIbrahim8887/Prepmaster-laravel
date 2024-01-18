@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\AdminSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -41,6 +42,22 @@ class AdminController extends Controller
         return response()->json(["message" => "Admins retrieved successfully", "admin" => $data], 200);
     }
 
+    public function confirmPassword(Request $request)
+    {
+        $request->validate([
+            "password" => "required",
+        ]);
+        $token = $request->bearerToken();
+        $adminSession = AdminSession::where("token", $token)->first();
+
+        if (empty($adminSession)) {
+            return response()->json(["message" => "Session Not Found"], 404);
+        }
+
+        if ($adminSession->password = $request->password) {
+            return response()->json(["message" => "Password is the same", 2000]);
+        }
+    }
     public function edit($id)
     {
         // Add your logic for displaying the edit form
@@ -72,9 +89,9 @@ class AdminController extends Controller
             $data->save();
 
             return response()->json(['message' => 'Admin profile updated successfully'], 200);
-        }catch (ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }
     }
@@ -119,7 +136,6 @@ class AdminController extends Controller
             $data->delete();
 
             return response()->json(["message" => "Admin deleted successfully"], 200);
-
         } catch (\Exception $e) {
             return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
         }

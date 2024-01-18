@@ -42,6 +42,7 @@ Route::prefix("/admin")->group(function () {
         Route::delete("/{id}", [AdminAdminController::class, "destroy"])->where('id', '[0-9]+');
         Route::post("/profile/{id}", [AdminAdminController::class, "updateProfile"])->where('id', '[0-9]+');
         Route::patch("/password/{id}", [AdminAdminController::class, "updatePassword"])->where('id', '[0-9]+');
+        Route::post("/confirm-password", [AdminAdminController::class, "confirm_password"]);
     });
     Route::prefix("/orgs")->group(function () {
         Route::post("/signup", [AdminOrganizationController::class, "create"]);
@@ -52,6 +53,7 @@ Route::prefix("/admin")->group(function () {
         Route::delete("/{id}", [AdminOrganizationController::class, "destroy"])->where('id', '[0-9]+');
         Route::post("/profile/{id}", [AdminOrganizationController::class, "updateProfile"])->where('id', '[0-9]+');
         Route::patch("/password/{id}", [AdminOrganizationController::class, "updatePassword"])->where('id', '[0-9]+');
+        Route::post("/confirm-password", [AdminOrganizationController::class, "confirm_password"]);
     });
     Route::prefix("/courses")->group(function () {
         Route::get("/", [CourseAdminController::class, "index"]);
