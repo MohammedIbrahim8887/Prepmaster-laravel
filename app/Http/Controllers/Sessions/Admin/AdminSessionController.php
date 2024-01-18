@@ -40,14 +40,14 @@ class AdminSessionController extends Controller
                     'token' => $token,
                 ]);
                 $adminSession->save();
-                return response()->json(['session:' => $adminSession]);
+                return response()->json(['session' => $adminSession]);
             }
 
             // // Check if it's an org user
             if ($org && $request->password == $org->password) {
                 $token = $org->createToken('api-token')->plainTextToken;
                 $orgSession = new OrganizationSession(['org_id' => $org->id, 'token' => $token]);
-                return response()->json(['session:' => $orgSession]);
+                return response()->json(['session' => $orgSession]);
             }
 
             return response()->json(['message' => 'Invalid credentials'], 401);
